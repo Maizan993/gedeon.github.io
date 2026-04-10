@@ -1,100 +1,1197 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <title>Portfolio - GrexTech Solutions</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #0f172a;
-            color: white;
-        }
-        header {
-            background-color: #020617;
-            padding: 20px;
-            text-align: center;
-        }
-        section {
-            padding: 40px;
-        }
-        h1, h2 {
-            color: #38bdf8;
-        }
-        .container {
-            max-width: 900px;
-            margin: auto;
-        }
-        .card {
-            background-color: #020617;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 10px;
-        }
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #020617;
-        }
-    </style>
-</head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maizan Kobenan Gedeon — Informaticien | Admin Sys & Réseau</title>
+  <meta name="description" content="Portfolio de Maizan Kobenan Gedeon — Informaticien spécialisé en administration système, réseaux, Zabbix, IA et formation en ligne. GrExTech Solutions." />
+  <meta name="author" content="Maizan Kobenan Gedeon" />
 
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Google Fonts : Space Grotesk + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            electric: '#00AAFF',
+            neon:     '#00FF99',
+            base:     '#0D1117',
+            surface:  '#161B22',
+            border:   '#21262D',
+            muted:    '#8B949E',
+          },
+          fontFamily: {
+            sans: ['Syne', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* ── Root & Base ───────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { background: #0D1117; color: #C9D1D9; }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: #0D1117;
+      overflow-x: hidden;
+    }
+
+    /* ── Scrollbar ─────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0D1117; }
+    ::-webkit-scrollbar-thumb { background: #00AAFF44; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #00AAFF88; }
+
+    /* ── Grid noise overlay ────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,170,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,170,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ── Glow blobs ────────────────────────────────────────── */
+    .blob {
+      position: fixed; border-radius: 50%; filter: blur(120px);
+      pointer-events: none; z-index: 0; opacity: 0.18;
+      animation: blobFloat 12s ease-in-out infinite alternate;
+    }
+    .blob-1 { width: 500px; height: 500px; background: #00AAFF; top: -150px; left: -150px; }
+    .blob-2 { width: 400px; height: 400px; background: #00FF99; bottom: -100px; right: -100px; animation-delay: -6s; }
+
+    @keyframes blobFloat {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.08); }
+    }
+
+    /* ── Typography ────────────────────────────────────────── */
+    .text-gradient {
+      background: linear-gradient(135deg, #00AAFF 0%, #00FF99 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .text-gradient-rev {
+      background: linear-gradient(135deg, #00FF99 0%, #00AAFF 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Navbar ────────────────────────────────────────────── */
+    #navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      transition: background 0.3s, border-color 0.3s, backdrop-filter 0.3s;
+    }
+    #navbar.scrolled {
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,170,255,0.15);
+    }
+
+    .nav-link {
+      position: relative; color: #8B949E;
+      transition: color 0.25s;
+      font-weight: 600; font-size: 0.85rem; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; left: 0; bottom: -3px;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, #00AAFF, #00FF99);
+      transition: width 0.3s;
+    }
+    .nav-link:hover { color: #C9D1D9; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ── Buttons ───────────────────────────────────────────── */
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 28px; border-radius: 6px; font-weight: 700;
+      background: linear-gradient(135deg, #00AAFF, #00FF99);
+      color: #0D1117; font-size: 0.9rem; letter-spacing: 0.04em;
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .btn-primary::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, #00FF99, #00AAFF);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,170,255,0.35); }
+    .btn-primary:hover::before { opacity: 1; }
+    .btn-primary span { position: relative; z-index: 1; }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 26px; border-radius: 6px; font-weight: 700;
+      border: 1.5px solid rgba(0,170,255,0.5); color: #00AAFF;
+      font-size: 0.9rem; letter-spacing: 0.04em;
+      transition: all 0.25s;
+    }
+    .btn-outline:hover {
+      background: rgba(0,170,255,0.08); border-color: #00AAFF;
+      box-shadow: 0 0 20px rgba(0,170,255,0.2);
+    }
+
+    /* ── Cards ─────────────────────────────────────────────── */
+    .card {
+      background: #161B22;
+      border: 1px solid #21262D;
+      border-radius: 12px;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(0,170,255,0.35);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(0,170,255,0.08);
+    }
+
+    /* ── Skill Badges ──────────────────────────────────────── */
+    .skill-badge {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: 20px 16px; border-radius: 10px;
+      background: #161B22; border: 1px solid #21262D;
+      transition: all 0.3s; cursor: default;
+    }
+    .skill-badge:hover {
+      border-color: rgba(0,255,153,0.4);
+      box-shadow: 0 0 20px rgba(0,255,153,0.1);
+      transform: translateY(-4px);
+    }
+    .skill-badge i { font-size: 1.8rem; }
+    .skill-badge span { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-align: center; color: #8B949E; }
+
+    /* ── Section Titles ────────────────────────────────────── */
+    .section-tag {
+      display: inline-block; font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #00AAFF;
+      background: rgba(0,170,255,0.08); border: 1px solid rgba(0,170,255,0.2);
+      padding: 4px 12px; border-radius: 4px; margin-bottom: 16px;
+    }
+
+    /* ── Hero terminal effect ──────────────────────────────── */
+    .terminal-line {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+      color: #8B949E; line-height: 1.8;
+    }
+    .terminal-line .prompt { color: #00FF99; }
+    .terminal-line .cmd    { color: #C9D1D9; }
+    .terminal-line .output { color: #8B949E; }
+
+    .cursor {
+      display: inline-block; width: 2px; height: 1.1em;
+      background: #00AAFF; margin-left: 2px; vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    /* ── Typewriter ────────────────────────────────────────── */
+    #typewriter { min-height: 2.5rem; }
+
+    /* ── Timeline (about) ──────────────────────────────────── */
+    .timeline-item { position: relative; padding-left: 28px; }
+    .timeline-item::before {
+      content: ''; position: absolute; left: 0; top: 6px;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: linear-gradient(135deg, #00AAFF, #00FF99);
+    }
+    .timeline-item::after {
+      content: ''; position: absolute; left: 4px; top: 20px;
+      width: 2px; height: calc(100% - 4px); background: #21262D;
+    }
+    .timeline-item:last-child::after { display: none; }
+
+    /* ── Progress bars ─────────────────────────────────────── */
+    .progress-bar {
+      height: 6px; border-radius: 3px; background: #21262D; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, #00AAFF, #00FF99);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* ── Blog cards ────────────────────────────────────────── */
+    .blog-card { transition: all 0.3s; }
+    .blog-card:hover .blog-title { color: #00AAFF; }
+    .blog-card:hover { transform: translateY(-5px); border-color: rgba(0,170,255,0.3) !important; }
+
+    /* ── Scroll reveal ─────────────────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── Contact form ──────────────────────────────────────── */
+    .form-input {
+      width: 100%; background: #0D1117; border: 1px solid #21262D;
+      border-radius: 8px; padding: 12px 16px; color: #C9D1D9;
+      font-family: 'Syne', sans-serif; font-size: 0.9rem;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: rgba(0,170,255,0.5);
+      box-shadow: 0 0 0 3px rgba(0,170,255,0.1);
+    }
+    .form-input::placeholder { color: #3D4451; }
+
+    /* ── Footer ────────────────────────────────────────────── */
+    .footer-link { color: #8B949E; transition: color 0.2s; font-size: 0.85rem; }
+    .footer-link:hover { color: #00AAFF; }
+
+    /* ── Social icons ──────────────────────────────────────── */
+    .social-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      background: #21262D; color: #8B949E; font-size: 1rem;
+      transition: all 0.25s;
+    }
+    .social-icon:hover { background: rgba(0,170,255,0.15); color: #00AAFF; transform: translateY(-2px); }
+
+    /* ── Mobile menu ───────────────────────────────────────── */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* ── Divider ───────────────────────────────────────────── */
+    .gradient-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,170,255,0.3), rgba(0,255,153,0.3), transparent);
+    }
+
+    /* ── Project tag ───────────────────────────────────────── */
+    .proj-tag {
+      display: inline-block; font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;
+      padding: 2px 8px; border-radius: 3px; font-weight: 500;
+    }
+
+    /* ── Stat counter ──────────────────────────────────────── */
+    .stat-card {
+      text-align: center; padding: 24px;
+      background: linear-gradient(135deg, rgba(0,170,255,0.05), rgba(0,255,153,0.05));
+      border: 1px solid rgba(0,170,255,0.15); border-radius: 10px;
+    }
+
+    /* ── Scroll to top ─────────────────────────────────────── */
+    #scrollTop {
+      position: fixed; bottom: 24px; right: 24px; z-index: 99;
+      width: 42px; height: 42px; border-radius: 8px;
+      background: linear-gradient(135deg, #00AAFF, #00FF99);
+      color: #0D1117; display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; cursor: pointer;
+      opacity: 0; transform: translateY(10px);
+      transition: all 0.3s; pointer-events: none;
+    }
+    #scrollTop.show { opacity: 1; transform: translateY(0); pointer-events: all; }
+    #scrollTop:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,170,255,0.4); }
+  </style>
+</head>
 <body>
 
-<header>
-    <h1>GrexTech Solutions</h1>
-    <p>Formateur & Professionnel en Réseaux et Systèmes</p>
-</header>
+  <!-- ── Ambient Blobs ─────────────────────────────────────── -->
+  <div class="blob blob-1" aria-hidden="true"></div>
+  <div class="blob blob-2" aria-hidden="true"></div>
 
-<section>
-    <div class="container">
-        <h2>À propos de moi</h2>
-        <div class="card">
-            <p>
-                Professionnel en réseaux et systèmes, titulaire d’un diplôme professionnel au Canada 
-                ainsi que d’une licence professionnelle en Côte d’Ivoire.
-            </p>
-            <p>
-                Je suis fondateur de GrexTech Solutions, une structure de formation en ligne spécialisée 
-                dans les réseaux, les systèmes et les technologies IT.
-            </p>
-            <p>
-                Je conçois des environnements pratiques pour simuler des infrastructures d’entreprise 
-                et accompagner les apprenants vers des compétences concrètes et professionnelles.
-            </p>
+  <!-- ─────────────────────────────────────────────────────────
+       NAVBAR
+  ────────────────────────────────────────────────────────── -->
+  <nav id="navbar" class="px-6 py-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#hero" class="flex items-center gap-2 group">
+        <div class="w-8 h-8 rounded-md flex items-center justify-center"
+             style="background: linear-gradient(135deg,#00AAFF,#00FF99);">
+          <span style="color:#0D1117;font-weight:800;font-size:0.85rem;font-family:'JetBrains Mono',monospace;">G</span>
         </div>
+        <span class="font-mono font-bold text-sm text-gradient">gedeon<span class="text-muted">.</span>io</span>
+      </a>
 
-        <h2>Compétences</h2>
-        <div class="card">
-            <ul>
-                <li>Configuration réseau : VLAN, routage inter-VLAN, switching</li>
-                <li>Administration Linux (Ubuntu Server)</li>
-                <li>Supervision et monitoring avec Zabbix</li>
-                <li>Services réseau : DHCP, DNS, HTTP</li>
-                <li>Virtualisation et environnements de laboratoire</li>
-            </ul>
-        </div>
+      <!-- Desktop nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#about"  class="nav-link">À Propos</a>
+        <a href="#skills" class="nav-link">Compétences</a>
+        <a href="#projects" class="nav-link">Projets</a>
+        <a href="#blog"   class="nav-link">Blog</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
 
-        <h2>Projets</h2>
-        <div class="card">
-            <ul>
-                <li>Déploiement d’un réseau multi-VLAN avec routage inter-VLAN</li>
-                <li>Mise en place d’un serveur Ubuntu avec supervision Zabbix</li>
-                <li>Création d’environnements de formation IT pratiques</li>
-            </ul>
-        </div>
-
-        <h2>Contact</h2>
-        <div class="card">
-            <p>Email : maizan993@gmail.com</p>
-            <p>Structure : GrexTech Solutions</p>
-        </div>
+      <!-- CTA + mobile toggle -->
+      <div class="flex items-center gap-4">
+        <a href="#contact" class="hidden md:inline-flex btn-primary text-sm py-2 px-5">
+          <span><i class="fa-solid fa-paper-plane mr-1"></i> Me contacter</span>
+        </a>
+        <button id="menu-btn" class="md:hidden text-muted hover:text-white transition-colors" aria-label="Menu">
+          <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+      </div>
     </div>
-</section>
 
-<footer>
-    <p>© 2026 GrexTech Solutions - Portfolio</p>
-</footer>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="md:hidden px-4 pt-4 pb-5 space-y-3 border-t border-border mt-3">
+      <a href="#about"    class="block nav-link py-2">À Propos</a>
+      <a href="#skills"   class="block nav-link py-2">Compétences</a>
+      <a href="#projects" class="block nav-link py-2">Projets</a>
+      <a href="#blog"     class="block nav-link py-2">Blog</a>
+      <a href="#contact"  class="block nav-link py-2">Contact</a>
+      <a href="#contact"  class="btn-primary mt-2 w-full justify-center"><span>Me contacter</span></a>
+    </div>
+  </nav>
+
+  <!-- ─────────────────────────────────────────────────────────
+       HERO
+  ────────────────────────────────────────────────────────── -->
+  <section id="hero" class="relative min-h-screen flex items-center pt-24 pb-16 px-6">
+    <div class="max-w-6xl mx-auto w-full relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+        <!-- Left column -->
+        <div>
+          <!-- Badge -->
+          <div class="reveal mb-6">
+            <span class="section-tag">
+              <i class="fa-solid fa-circle-dot mr-1" style="color:#00FF99;font-size:0.6rem;"></i>
+              Disponible pour missions freelance
+            </span>
+          </div>
+
+          <!-- Name -->
+          <div class="reveal" style="transition-delay:0.1s">
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-2">
+              Maizan Kobenan<br>
+              <span class="text-gradient">Gedeon</span>
+            </h1>
+          </div>
+
+          <!-- Typewriter title -->
+          <div class="reveal mb-6" style="transition-delay:0.2s">
+            <p class="text-lg text-muted font-mono">
+              <span class="text-electric">~/</span>
+              <span id="typewriter" class="text-white font-bold"></span><span class="cursor"></span>
+            </p>
+          </div>
+
+          <!-- Accroche -->
+          <div class="reveal mb-8" style="transition-delay:0.3s">
+            <p class="text-muted leading-relaxed text-base max-w-lg">
+              J'architecure des infrastructures robustes, surveille les réseaux en temps réel
+              et automatise l'intelligence avec des agents IA —
+              le tout sous la bannière de <span class="text-neon font-bold">GrExTech Solutions</span>.
+            </p>
+          </div>
+
+          <!-- CTAs -->
+          <div class="reveal flex flex-wrap gap-4" style="transition-delay:0.4s">
+            <a href="#contact" class="btn-primary"><span><i class="fa-solid fa-envelope mr-1"></i>Me contacter</span></a>
+            <a href="https://github.com/gedeon" target="_blank" rel="noopener noreferrer" class="btn-outline">
+              <i class="fa-brands fa-github"></i> GitHub
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="btn-outline">
+              <i class="fa-brands fa-linkedin-in"></i> LinkedIn
+            </a>
+          </div>
+
+          <!-- Stats -->
+          <div class="reveal mt-12 grid grid-cols-3 gap-4" style="transition-delay:0.5s">
+            <div class="stat-card">
+              <div class="text-2xl font-extrabold text-gradient">5+</div>
+              <div class="text-xs text-muted mt-1 font-mono">Années d'exp.</div>
+            </div>
+            <div class="stat-card">
+              <div class="text-2xl font-extrabold text-gradient">30+</div>
+              <div class="text-xs text-muted mt-1 font-mono">Projets livrés</div>
+            </div>
+            <div class="stat-card">
+              <div class="text-2xl font-extrabold text-gradient">200+</div>
+              <div class="text-xs text-muted mt-1 font-mono">Apprenants formés</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right column — Terminal card -->
+        <div class="reveal hidden lg:block" style="transition-delay:0.3s">
+          <div class="card p-6 font-mono text-sm relative overflow-hidden">
+            <!-- Terminal title bar -->
+            <div class="flex items-center gap-2 mb-6 pb-4 border-b border-border">
+              <div class="w-3 h-3 rounded-full bg-red-500 opacity-80"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-500 opacity-80"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500 opacity-80"></div>
+              <span class="ml-3 text-muted text-xs">gedeon@grextech:~</span>
+            </div>
+            <!-- Terminal content -->
+            <div class="space-y-2 terminal-line">
+              <div><span class="prompt">❯ </span><span class="cmd">whoami</span></div>
+              <div class="output pl-4">Maizan Kobenan Gedeon</div>
+              <div class="mt-3"><span class="prompt">❯ </span><span class="cmd">cat skills.json</span></div>
+              <div class="pl-4 text-xs leading-7" style="color:#8B949E">
+                <span style="color:#21262D">{</span><br>
+                &nbsp;&nbsp;<span style="color:#00FF99">"sysadmin"</span>: <span style="color:#00AAFF">["Linux", "Windows Server"]</span>,<br>
+                &nbsp;&nbsp;<span style="color:#00FF99">"network"</span>: <span style="color:#00AAFF">["Cisco", "VPN", "Firewall"]</span>,<br>
+                &nbsp;&nbsp;<span style="color:#00FF99">"monitoring"</span>: <span style="color:#00AAFF">["Zabbix", "Grafana"]</span>,<br>
+                &nbsp;&nbsp;<span style="color:#00FF99">"ai_agents"</span>: <span style="color:#00AAFF">["n8n", "LangChain"]</span>,<br>
+                &nbsp;&nbsp;<span style="color:#00FF99">"training"</span>: <span style="color:#00AAFF">["eLearning", "Python"]</span><br>
+                <span style="color:#21262D">}</span>
+              </div>
+              <div class="mt-3"><span class="prompt">❯ </span><span class="cmd">ping grextechnsolution@gmail.com</span></div>
+              <div class="output pl-4 text-neon">PONG — réponse en &lt; 24h <i class="fa-solid fa-bolt" style="font-family:inherit"></i></div>
+            </div>
+            <!-- Glow effect -->
+            <div class="absolute inset-0 pointer-events-none"
+                 style="background:radial-gradient(ellipse at 80% 20%, rgba(0,170,255,0.06) 0%, transparent 70%)">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <a href="#about" class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted hover:text-electric transition-colors">
+      <span class="text-xs font-mono tracking-widest uppercase">Scroll</span>
+      <i class="fa-solid fa-chevron-down animate-bounce"></i>
+    </a>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- ─────────────────────────────────────────────────────────
+       À PROPOS
+  ────────────────────────────────────────────────────────── -->
+  <section id="about" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-4"><span class="section-tag">// À propos</span></div>
+      <h2 class="reveal text-3xl md:text-4xl font-extrabold mb-12" style="transition-delay:0.1s">
+        Qui suis-je <span class="text-gradient">vraiment</span> ?
+      </h2>
+
+      <div class="grid lg:grid-cols-5 gap-12">
+        <!-- Bio -->
+        <div class="lg:col-span-3 reveal" style="transition-delay:0.2s">
+          <p class="text-muted leading-relaxed mb-6">
+            Passionné par les systèmes et les réseaux depuis mes premières lignes de commande,
+            je suis <span class="text-white font-semibold">Maizan Kobenan Gedeon</span>,
+            informaticien polyvalent et fondateur de
+            <span class="text-neon font-bold">GrExTech Solutions</span> —
+            une structure dédiée à l'accompagnement tech des entreprises et des particuliers.
+          </p>
+          <p class="text-muted leading-relaxed mb-6">
+            Mon terrain de jeu quotidien : administrer des serveurs Linux et Windows,
+            concevoir des topologies réseau résilientes, surveiller des infrastructures avec
+            <span class="text-electric font-semibold">Zabbix</span> et automatiser des workflows
+            complexes grâce à des agents IA construits sur <span class="text-electric font-semibold">n8n</span>.
+          </p>
+          <p class="text-muted leading-relaxed">
+            En parallèle, je transmets mes connaissances à travers des <strong class="text-white">formations en ligne
+            accessibles aux débutants</strong>, car je crois profondément que la technologie doit être
+            démystifiée pour tous.
+          </p>
+
+          <!-- Timeline -->
+          <div class="mt-10 space-y-6">
+            <div class="timeline-item">
+              <p class="text-white font-bold text-sm">Administration Système Linux & Windows</p>
+              <p class="text-muted text-xs mt-1">Gestion de serveurs, virtualisation, scripting Bash & PowerShell</p>
+            </div>
+            <div class="timeline-item">
+              <p class="text-white font-bold text-sm">Réseaux & Infrastructure</p>
+              <p class="text-muted text-xs mt-1">Configuration Cisco, VLANs, VPN, sécurisation périmétrique</p>
+            </div>
+            <div class="timeline-item">
+              <p class="text-white font-bold text-sm">Surveillance Réseau — Zabbix</p>
+              <p class="text-muted text-xs mt-1">Déploiement et paramétrage de dashboards de monitoring temps réel</p>
+            </div>
+            <div class="timeline-item">
+              <p class="text-white font-bold text-sm">Agents IA — n8n & Automatisation</p>
+              <p class="text-muted text-xs mt-1">Création de workflows intelligents, intégrations API, LLM orchestration</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right panel -->
+        <div class="lg:col-span-2 reveal space-y-6" style="transition-delay:0.3s">
+          <!-- GrExTech card -->
+          <div class="card p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center"
+                   style="background:linear-gradient(135deg,#00AAFF22,#00FF9922);border:1px solid rgba(0,170,255,0.2)">
+                <i class="fa-solid fa-building text-electric"></i>
+              </div>
+              <div>
+                <p class="text-white font-bold text-sm">GrExTech Solutions</p>
+                <p class="text-muted text-xs">Fondateur & Lead Tech</p>
+              </div>
+            </div>
+            <p class="text-muted text-xs leading-relaxed">
+              Structure tech dédiée à l'administration système, la cybersécurité, l'IA appliquée
+              et la formation informatique pour professionnels et débutants.
+            </p>
+          </div>
+
+          <!-- Skill progress bars -->
+          <div class="card p-6">
+            <p class="text-white font-bold text-sm mb-5">Niveau d'expertise</p>
+            <div class="space-y-5">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-muted">Admin Linux / Windows</span>
+                  <span class="text-electric font-mono">90%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" data-width="90"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-muted">Réseaux (Cisco / LAN / WAN)</span>
+                  <span class="text-electric font-mono">85%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" data-width="85"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-muted">Zabbix / Monitoring</span>
+                  <span class="text-electric font-mono">80%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" data-width="80"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-muted">n8n / Agents IA</span>
+                  <span class="text-electric font-mono">78%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" data-width="78"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-muted">Python / Scripting</span>
+                  <span class="text-electric font-mono">72%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" data-width="72"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- ─────────────────────────────────────────────────────────
+       COMPÉTENCES
+  ────────────────────────────────────────────────────────── -->
+  <section id="skills" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-4"><span class="section-tag">// Compétences</span></div>
+      <h2 class="reveal text-3xl md:text-4xl font-extrabold mb-4" style="transition-delay:0.1s">
+        Ma stack <span class="text-gradient">technique</span>
+      </h2>
+      <p class="reveal text-muted mb-12 max-w-xl" style="transition-delay:0.2s">
+        Des outils maîtrisés sur le terrain, pas juste en théorie.
+      </p>
+
+      <div class="reveal grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4" style="transition-delay:0.3s">
+
+        <div class="skill-badge">
+          <i class="fa-brands fa-linux" style="color:#FCC624"></i>
+          <span>Linux</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-brands fa-windows" style="color:#00AAFF"></i>
+          <span>Windows Server</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-network-wired" style="color:#1BA0D8"></i>
+          <span>Cisco</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-eye" style="color:#D40000"></i>
+          <span>Zabbix</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-diagram-project" style="color:#EA4B71"></i>
+          <span>n8n</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-brain" style="color:#00FF99"></i>
+          <span>IA / LLM</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-brands fa-python" style="color:#3776AB"></i>
+          <span>Python</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-server" style="color:#8B949E"></i>
+          <span>Réseaux</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-shield-halved" style="color:#00AAFF"></i>
+          <span>Cybersécurité</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-cloud" style="color:#FF9900"></i>
+          <span>Cloud / AWS</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-terminal" style="color:#00FF99"></i>
+          <span>Bash / Shell</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-brands fa-docker" style="color:#2496ED"></i>
+          <span>Docker</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-chart-line" style="color:#F46800"></i>
+          <span>Grafana</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-graduation-cap" style="color:#00FF99"></i>
+          <span>Formation</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-code-branch" style="color:#F05032"></i>
+          <span>Git</span>
+        </div>
+        <div class="skill-badge">
+          <i class="fa-solid fa-bolt" style="color:#FFD700"></i>
+          <span>Automatisation</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- ─────────────────────────────────────────────────────────
+       PROJETS
+  ────────────────────────────────────────────────────────── -->
+  <section id="projects" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-4"><span class="section-tag">// Projets</span></div>
+      <h2 class="reveal text-3xl md:text-4xl font-extrabold mb-4" style="transition-delay:0.1s">
+        Ce que j'ai <span class="text-gradient">construit</span>
+      </h2>
+      <p class="reveal text-muted mb-12 max-w-xl" style="transition-delay:0.2s">
+        Des solutions concrètes, déployées en production pour des clients réels.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- Projet 1 -->
+        <div class="card p-6 flex flex-col reveal" style="transition-delay:0.2s">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center"
+                 style="background:linear-gradient(135deg,rgba(212,0,0,0.15),rgba(212,0,0,0.05));border:1px solid rgba(212,0,0,0.2)">
+              <i class="fa-solid fa-eye text-2xl" style="color:#D40000"></i>
+            </div>
+            <div class="flex gap-2">
+              <span class="proj-tag" style="background:rgba(212,0,0,0.1);color:#FF6B6B;">Zabbix</span>
+              <span class="proj-tag" style="background:rgba(0,170,255,0.1);color:#00AAFF;">Monitoring</span>
+            </div>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">Infrastructure Monitor Pro</h3>
+          <p class="text-muted text-sm leading-relaxed flex-1 mb-5">
+            Dashboard Zabbix complet pour une PME de 80 postes : surveillance CPU, RAM,
+            bande passante, alertes SMS/email automatiques et rapports hebdomadaires PDF.
+          </p>
+          <div class="pt-4 border-t border-border flex items-center justify-between">
+            <div class="flex flex-wrap gap-1">
+              <span class="text-xs font-mono text-muted bg-border px-2 py-0.5 rounded">Zabbix 6</span>
+              <span class="text-xs font-mono text-muted bg-border px-2 py-0.5 rounded">Linux</span>
+              <span class="text-xs font-mono text-muted bg-border px-2 py-0.5 rounded">MySQL</span>
+            </div>
+            <a href="#contact" class="text-electric text-sm hover:text-neon transition-colors font-bold">
+              Voir <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Projet 2 -->
+        <div class="card p-6 flex flex-col reveal" style="transition-delay:0.3s">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center"
+                 style="background:linear-gradient(135deg,rgba(234,75,113,0.15),rgba(234,75,113,0.05));border:1px solid rgba(234,75,113,0.2)">
+              <i class="fa-solid fa-robot text-2xl" style="color:#EA4B71"></i>
+            </div>
+            <div class="flex gap-2">
+              <span class="proj-tag" style="background:rgba(234,75,113,0.1);color:#EA4B71;">n8n</span>
+              <span class="proj-tag" style="background:rgba(0,255,153,0.1);color:#00FF99;">IA Agent</span>
+            </div>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">SupportBot IA — Ticketing Auto</h3>
+          <p class="text-muted text-sm leading-relaxed flex-1 mb-5">
+            Agent IA construit avec n8n + GPT-4 pour qualifier, router et résoudre
+            automatiquement 60 % des tickets de support IT entrants. Intégration Slack + email.
+          </p>
+          <div class="pt-4 border-t border-border flex items-center justify-between">
+            <div class="flex flex-wrap gap-1">
+              <span class="text-xs font-mono text-muted bg-border px-2 py-0.5 rounded">n8n</span>
+              <span class="text-xs font-mono text-muted bg-border px-2 py-0.5 rounded">OpenAI</span>
+              <span class="text-xs font-mono text-muted bg-border px-2 py-0.5 rounded">Slack API</span>
+            </div>
+            <a href="#contact" class="text-electric text-sm hover:text-neon transition-colors font-bold">
+              Voir <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Projet 3 -->
+        <div class="card p-6 flex flex-col reveal" style="transition-delay:0.4s">
+          <div class="flex items-start justify-between mb-4">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center"
+                 style="background:linear-gradient(135deg,rgba(0,255,153,0.15),rgba(0,255,153,0.05));border:1px solid rgba(0,255,153,0.2)">
+              <i class="fa-solid fa-graduation-cap text-2xl text-neon"></i>
+            </div>
+            <div class="flex gap-2">
+              <span class="proj-tag" style="background:rgba(0,255,153,0.1);color:#00FF99;">eLearning</span>
+              <span class="proj-tag" style="background:rgba(0,170,255,0.1);color:#00AAFF;">Formation</span>
+            </div>
+          </div>
+          <h3 class="text-white font-bold text-lg mb-2">GrEx Academy — Plateforme de cours</h3>
+          <p class="text-muted text-sm leading-relaxed flex-1 mb-5">
+            Plateforme de formation en ligne pour débutants en informatique : vidéos,
+            quiz interactifs, certificats automatisés. 200+ apprenants actifs, 4.8/5 de satisfaction.
+          </p>
+          <div class="pt-4 border-t border-border flex items-center justify-between">
+            <div class="flex flex-wrap gap-1">
+              <span class="text-xs font-mono text-muted bg-border px-2 py-0.5 rounded">Moodle</span>
+              <span class="text-xs font-mono text-muted bg-border px-2 py-0.5 rounded">Python</span>
+              <span class="text-xs font-mono text-muted bg-border px-2 py-0.5 rounded">Linux</span>
+            </div>
+            <a href="#contact" class="text-electric text-sm hover:text-neon transition-colors font-bold">
+              Voir <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- ─────────────────────────────────────────────────────────
+       BLOG / ARTICLES
+  ────────────────────────────────────────────────────────── -->
+  <section id="blog" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-4"><span class="section-tag">// Blog & Articles</span></div>
+      <h2 class="reveal text-3xl md:text-4xl font-extrabold mb-4" style="transition-delay:0.1s">
+        Partage de <span class="text-gradient">connaissances</span>
+      </h2>
+      <p class="reveal text-muted mb-12 max-w-xl" style="transition-delay:0.2s">
+        Des articles clairs et pratiques pour progresser en informatique, même en partant de zéro.
+      </p>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- Article 1 -->
+        <article class="card blog-card p-6 flex flex-col reveal" style="transition-delay:0.2s">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="proj-tag" style="background:rgba(0,170,255,0.1);color:#00AAFF;">Réseaux</span>
+            <span class="text-xs text-muted font-mono">15 Mars 2025</span>
+          </div>
+          <div class="w-full h-36 rounded-lg mb-4 flex items-center justify-center"
+               style="background:linear-gradient(135deg,rgba(0,170,255,0.08),rgba(0,170,255,0.02));border:1px solid rgba(0,170,255,0.1)">
+            <i class="fa-solid fa-network-wired text-5xl" style="color:rgba(0,170,255,0.4)"></i>
+          </div>
+          <h3 class="blog-title text-white font-bold text-base mb-3 transition-colors">
+            Comprendre les VLANs : Guide complet pour débutants
+          </h3>
+          <p class="text-muted text-xs leading-relaxed flex-1 mb-4">
+            Qu'est-ce qu'un VLAN ? Comment en créer un sur un switch Cisco ? 
+            Ce guide illustré explique tout, étape par étape, sans prérequis avancé.
+          </p>
+          <div class="flex items-center justify-between pt-4 border-t border-border">
+            <span class="text-xs text-muted font-mono">8 min de lecture</span>
+            <a href="#blog" class="text-xs text-electric font-bold hover:text-neon transition-colors">
+              Lire <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 2 -->
+        <article class="card blog-card p-6 flex flex-col reveal" style="transition-delay:0.3s">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="proj-tag" style="background:rgba(0,255,153,0.1);color:#00FF99;">IA & Automatisation</span>
+            <span class="text-xs text-muted font-mono">2 Avr. 2025</span>
+          </div>
+          <div class="w-full h-36 rounded-lg mb-4 flex items-center justify-center"
+               style="background:linear-gradient(135deg,rgba(0,255,153,0.08),rgba(0,255,153,0.02));border:1px solid rgba(0,255,153,0.1)">
+            <i class="fa-solid fa-robot text-5xl" style="color:rgba(0,255,153,0.4)"></i>
+          </div>
+          <h3 class="blog-title text-white font-bold text-base mb-3 transition-colors">
+            Créer son premier agent IA avec n8n en 30 minutes
+          </h3>
+          <p class="text-muted text-xs leading-relaxed flex-1 mb-4">
+            Tutoriel pas-à-pas pour construire un bot qui répond à vos emails automatiquement.
+            Aucune compétence en programmation requise.
+          </p>
+          <div class="flex items-center justify-between pt-4 border-t border-border">
+            <span class="text-xs text-muted font-mono">12 min de lecture</span>
+            <a href="#blog" class="text-xs text-electric font-bold hover:text-neon transition-colors">
+              Lire <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </article>
+
+        <!-- Article 3 -->
+        <article class="card blog-card p-6 flex flex-col reveal" style="transition-delay:0.4s">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="proj-tag" style="background:rgba(212,0,0,0.1);color:#FF6B6B;">Linux</span>
+            <span class="text-xs text-muted font-mono">20 Avr. 2025</span>
+          </div>
+          <div class="w-full h-36 rounded-lg mb-4 flex items-center justify-center"
+               style="background:linear-gradient(135deg,rgba(252,198,36,0.08),rgba(252,198,36,0.02));border:1px solid rgba(252,198,36,0.1)">
+            <i class="fa-brands fa-linux text-5xl" style="color:rgba(252,198,36,0.5)"></i>
+          </div>
+          <h3 class="blog-title text-white font-bold text-base mb-3 transition-colors">
+            Linux pour débutants : les 20 commandes indispensables
+          </h3>
+          <p class="text-muted text-xs leading-relaxed flex-1 mb-4">
+            De ls à grep en passant par chmod — maîtrisez le terminal Linux en une heure
+            avec des exemples concrets et des exercices pratiques.
+          </p>
+          <div class="flex items-center justify-between pt-4 border-t border-border">
+            <span class="text-xs text-muted font-mono">10 min de lecture</span>
+            <a href="#blog" class="text-xs text-electric font-bold hover:text-neon transition-colors">
+              Lire <i class="fa-solid fa-arrow-right ml-1"></i>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-divider"></div>
+
+  <!-- ─────────────────────────────────────────────────────────
+       CONTACT
+  ────────────────────────────────────────────────────────── -->
+  <section id="contact" class="py-24 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="reveal mb-4"><span class="section-tag">// Contact</span></div>
+      <h2 class="reveal text-3xl md:text-4xl font-extrabold mb-4" style="transition-delay:0.1s">
+        Travaillons <span class="text-gradient">ensemble</span>
+      </h2>
+      <p class="reveal text-muted mb-12 max-w-xl" style="transition-delay:0.2s">
+        Un projet en tête ? Une question ? Écrivez-moi — je réponds sous 24h.
+      </p>
+
+      <div class="grid lg:grid-cols-2 gap-12">
+
+        <!-- Form -->
+        <div class="reveal" style="transition-delay:0.2s">
+          <div class="card p-8">
+            <form id="contact-form" onsubmit="handleSubmit(event)" class="space-y-5">
+              <div class="grid sm:grid-cols-2 gap-5">
+                <div>
+                  <label class="block text-xs font-bold text-muted mb-2 uppercase tracking-wider">Nom</label>
+                  <input type="text" name="name" placeholder="Jean Dupont"
+                         class="form-input" required />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold text-muted mb-2 uppercase tracking-wider">Email</label>
+                  <input type="email" name="email" placeholder="jean@exemple.com"
+                         class="form-input" required />
+                </div>
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-muted mb-2 uppercase tracking-wider">Sujet</label>
+                <input type="text" name="subject" placeholder="Projet réseau, formation, mission..."
+                       class="form-input" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold text-muted mb-2 uppercase tracking-wider">Message</label>
+                <textarea name="message" placeholder="Décrivez votre besoin..."
+                          rows="5" class="form-input resize-none" required></textarea>
+              </div>
+              <button type="submit" id="submit-btn" class="btn-primary w-full justify-center">
+                <span id="btn-text"><i class="fa-solid fa-paper-plane mr-2"></i>Envoyer le message</span>
+              </button>
+              <div id="form-success" class="hidden text-center py-3 rounded-lg text-sm font-bold text-neon"
+                   style="background:rgba(0,255,153,0.08);border:1px solid rgba(0,255,153,0.2)">
+                <i class="fa-solid fa-circle-check mr-2"></i>Message envoyé — je reviens vers vous sous 24h !
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Contact info -->
+        <div class="reveal space-y-6" style="transition-delay:0.3s">
+
+          <!-- Email card -->
+          <div class="card p-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                   style="background:linear-gradient(135deg,rgba(0,170,255,0.15),rgba(0,170,255,0.05));border:1px solid rgba(0,170,255,0.2)">
+                <i class="fa-solid fa-envelope text-electric text-xl"></i>
+              </div>
+              <div>
+                <p class="text-xs text-muted font-bold uppercase tracking-wider mb-1">Email</p>
+                <a href="mailto:grextechnsolution@gmail.com"
+                   class="text-white font-bold text-sm hover:text-electric transition-colors">
+                  grextechnsolution@gmail.com
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Website -->
+          <div class="card p-6">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                   style="background:linear-gradient(135deg,rgba(0,255,153,0.15),rgba(0,255,153,0.05));border:1px solid rgba(0,255,153,0.2)">
+                <i class="fa-solid fa-globe text-neon text-xl"></i>
+              </div>
+              <div>
+                <p class="text-xs text-muted font-bold uppercase tracking-wider mb-1">Site Web</p>
+                <a href="https://gedeon.github.io" target="_blank" rel="noopener noreferrer"
+                   class="text-white font-bold text-sm hover:text-neon transition-colors">
+                  gedeon.github.io
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Socials -->
+          <div class="card p-6">
+            <p class="text-xs text-muted font-bold uppercase tracking-wider mb-4">Retrouvez-moi</p>
+            <div class="flex gap-3">
+              <a href="https://github.com/gedeon" target="_blank" rel="noopener noreferrer"
+                 class="social-icon" title="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                 class="social-icon" title="LinkedIn">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
+                 class="social-icon" title="Twitter/X">
+                <i class="fa-brands fa-x-twitter"></i>
+              </a>
+              <a href="mailto:grextechnsolution@gmail.com"
+                 class="social-icon" title="Email">
+                <i class="fa-solid fa-envelope"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Availability badge -->
+          <div class="p-5 rounded-xl" style="background:linear-gradient(135deg,rgba(0,255,153,0.05),rgba(0,170,255,0.05));border:1px solid rgba(0,255,153,0.15)">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-2.5 h-2.5 rounded-full bg-neon animate-pulse"></div>
+              <span class="text-neon text-sm font-bold">Disponible pour de nouvelles missions</span>
+            </div>
+            <p class="text-muted text-xs leading-relaxed">
+              Admin système, audit réseau, déploiement Zabbix, agents IA, formation en ligne —
+              discutons de votre projet !
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────────────────────
+       FOOTER
+  ────────────────────────────────────────────────────────── -->
+  <footer class="border-t border-border py-10 px-6 relative z-10">
+    <div class="max-w-6xl mx-auto">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <!-- Logo -->
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-md flex items-center justify-center"
+               style="background:linear-gradient(135deg,#00AAFF,#00FF99)">
+            <span style="color:#0D1117;font-weight:800;font-size:0.85rem;font-family:'JetBrains Mono',monospace;">G</span>
+          </div>
+          <div>
+            <span class="font-mono font-bold text-sm text-gradient">gedeon.github.io</span>
+            <p class="text-muted text-xs">GrExTech Solutions</p>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="flex flex-wrap gap-6 justify-center">
+          <a href="#about"    class="footer-link">À Propos</a>
+          <a href="#skills"   class="footer-link">Compétences</a>
+          <a href="#projects" class="footer-link">Projets</a>
+          <a href="#blog"     class="footer-link">Blog</a>
+          <a href="#contact"  class="footer-link">Contact</a>
+        </div>
+
+        <!-- Copyright -->
+        <p class="text-muted text-xs font-mono text-center">
+          © 2025 Maizan Kobenan Gedeon<br>
+          Construit avec ❤️ & GrExTech
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scroll to top button -->
+  <button id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Retour en haut">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <!-- ─────────────────────────────────────────────────────────
+       JAVASCRIPT
+  ────────────────────────────────────────────────────────── -->
+  <script>
+    /* ── Navbar scroll ─────────────────────────────────────── */
+    const navbar = document.getElementById('navbar');
+    const scrollTopBtn = document.getElementById('scrollTop');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.classList.add('scrolled');
+        scrollTopBtn.classList.add('show');
+      } else {
+        navbar.classList.remove('scrolled');
+        scrollTopBtn.classList.remove('show');
+      }
+    });
+
+    /* ── Mobile menu ───────────────────────────────────────── */
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      menuBtn.querySelector('i').classList.toggle('fa-bars');
+      menuBtn.querySelector('i').classList.toggle('fa-xmark');
+    });
+
+    // Close menu on link click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        menuBtn.querySelector('i').classList.add('fa-bars');
+        menuBtn.querySelector('i').classList.remove('fa-xmark');
+      });
+    });
+
+    /* ── Smooth scroll for nav links ───────────────────────── */
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    /* ── Typewriter ────────────────────────────────────────── */
+    const phrases = [
+      'Informaticien',
+      'Admin Sys & Réseau',
+      'Architecte Réseaux',
+      'Expert Zabbix',
+      'Créateur d\'Agents IA',
+      'Formateur en ligne',
+    ];
+    let phraseIdx = 0, charIdx = 0, deleting = false;
+    const typewriterEl = document.getElementById('typewriter');
+
+    function typeLoop() {
+      const current = phrases[phraseIdx];
+      if (deleting) {
+        charIdx--;
+        typewriterEl.textContent = current.slice(0, charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          phraseIdx = (phraseIdx + 1) % phrases.length;
+          setTimeout(typeLoop, 400);
+        } else {
+          setTimeout(typeLoop, 40);
+        }
+      } else {
+        charIdx++;
+        typewriterEl.textContent = current.slice(0, charIdx);
+        if (charIdx === current.length) {
+          deleting = true;
+          setTimeout(typeLoop, 2000);
+        } else {
+          setTimeout(typeLoop, 80);
+        }
+      }
+    }
+    setTimeout(typeLoop, 800);
+
+    /* ── Scroll reveal ─────────────────────────────────────── */
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Trigger progress bars
+          entry.target.querySelectorAll('.progress-fill').forEach(bar => {
+            bar.style.transform = `scaleX(${bar.dataset.width / 100})`;
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // Also observe progress bars outside reveal containers
+    document.querySelectorAll('.progress-fill').forEach(bar => {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.transform = `scaleX(${entry.target.dataset.width / 100})`;
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      obs.observe(bar);
+    });
+
+    /* ── Contact form ──────────────────────────────────────── */
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const btnText = document.getElementById('btn-text');
+      const success = document.getElementById('form-success');
+
+      btn.disabled = true;
+      btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Envoi en cours...';
+
+      // Simulate send
+      setTimeout(() => {
+        document.getElementById('contact-form').style.display = 'none';
+        success.classList.remove('hidden');
+      }, 1500);
+    }
+
+    /* ── Initial reveal for hero elements ──────────────────── */
+    setTimeout(() => {
+      document.querySelectorAll('#hero .reveal').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 120);
+      });
+    }, 200);
+  </script>
 
 </body>
 </html>
